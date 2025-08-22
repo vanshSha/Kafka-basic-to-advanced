@@ -1,0 +1,41 @@
+# ==========================================================
+# Git Attributes for Spring Boot + Kafka Project (Mac + Windows)
+# Ensures consistent line endings and avoids CRLF/LF warnings
+# ==========================================================
+
+# -----------------------------------
+# Java source files
+*.java text eol=lf
+
+# Shell scripts (Unix style)
+*.sh text eol=lf
+
+# Windows batch scripts (for mvnw.cmd or startup.cmd)
+*.cmd text eol=crlf
+
+# YAML configuration files (for Spring Boot, Docker, Kafka)
+*.yml text eol=lf
+*.yaml text eol=lf
+
+# Dockerfile
+Dockerfile text eol=lf
+
+# Markdown documentation
+*.md text eol=lf
+
+# Maven wrapper scripts
+mvnw text eol=lf
+mvnw.cmd text eol=crlf
+
+# Properties files (Spring Boot, logging, etc.)
+*.properties text eol=lf
+
+# Git should treat all files as text (auto normalize others)
+* text=auto
+
+# Ignore IntelliJ and Eclipse workspace-specific files
+.idea/ export-ignore
+*.iml export-ignore
+*.classpath export-ignore
+*.project export-ignore
+
