@@ -1,0 +1,77 @@
+version: '3.8'
+
+services:
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.5.0
+    platform: linux/arm64
+    hostname: zookeeper
+    container_name: zookeeper
+    ports:
+      - "2181:2181"
+    networks:
+      - kafka-net
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+      # Tick_Time is like a watchdog -> kafka is alive , zookeeper servers still alive,
+      # Internal timer to check heartbeats and failures
+
+  kafka:
+    image: confluentinc/cp-kafka:7.5.0
+    platform: linux/arm64
+    hostname: kafka
+    container_name: kafka
+    ports:
+      - "9092:9092"
+    networks:
+      - kafka-net
+    environment:
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      # ADVERTISED_LISTENERS this is use for when producer and consumer want to connect with me then use this
+      # PLAINTEXT use for internal connection. PLAINTEXT_HOST use for external connection like postman, macbook,localhost, browser
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:29092,PLAINTEXT_HOST://localhost:9092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      # This line KAFKA_LISTENER_SECURITY_PROTOCOL_MAP tell how to connect between internal and external
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      # This line means Kafka will only save 1 copy of consumer progress data (called offsets).
+      KAFKA_CONFLUENT_LICENSE_TOPIC_REPLICATION_FACTOR: 1
+      # That's because Kafka will try to create the internal topic with 2 or 3 copies (replicas) — but since there's only 1 broker,
+      # it can't do that.Just create 1 copy of the topic. This avoids the crash in a single-broker setup.
+      KAFKA_CONFLUENT_BALANCER_TOPIC_REPLICATION_FACTOR: 1
+      # this line tells kafka to create only 1 copy of the topic used by the Auto Data Balancer.It is needed because you are using only 1 Kafka broker.
+      # Without it, Kafka may try to create 3 copies and crash.
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      # ISR = In-Sync Replicas I have only 1 broker. So it’s okay if just that broker is in-sync.
+      # Don’t wait for more brokers to write transaction data.
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      # Normally, Kafka tries to create 3 copies of this topic for safety.
+      # But you're using only 1 broker → Kafka cannot create 3 copies. Just create 1 copy, that’s enough for now.
+      # Kafka, create only 1 copy of the topic that stores transaction data
+      KAFKA_JMX_PORT: 9101
+      # Java Management Extension. Java apps (like Kafka) expose their internal
+      # health, memory, CPU, topics, brokers, etc. using a system called JMX. i will use with JConsole,VisualVM later.
+      KAFKA_JMX_HOSTNAME: localhost
+      # This line tells Kafka to use "localhost" as the JMX server hostname
+      # KAFKA_CONFLUENT_SCHEMA_REGISTRY_URL: http://schema-registry:8081
+      # This command is used to allow the kafka broker to talk schema registry.
+
+  rest-proxy:
+    image: confluentinc/cp-kafka-rest:7.5.0
+    platform: linux/arm64
+    hostname: rest-proxy
+    container_name: rest-proxy
+    ports:
+      - "8082:8082"
+    networks:
+      - kafka-net
+    environment:
+      KAFKA_REST_BOOTSTRAP_SERVERS: PLAINTEXT://kafka:29092
+      KAFKA_REST_LISTENERS: http://0.0.0.0:8082
+      KAFKA_REST_HOST_NAME: rest-proxy
+
+
+
+
+networks:
+  kafka-net:
+    driver: bridge
