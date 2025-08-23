@@ -19,7 +19,7 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
 @SpringBootApplication
-//@EnableScheduling
+@EnableScheduling
 public class KafkaCoreProducerApplication implements CommandLineRunner {
 
     public static void main(String[] args) {

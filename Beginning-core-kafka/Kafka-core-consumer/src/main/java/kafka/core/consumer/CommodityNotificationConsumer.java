@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
-//@Service
+@Service
 public class CommodityNotificationConsumer {
 
     @Autowired
@@ -23,7 +23,7 @@ public class CommodityNotificationConsumer {
     public void listen(String message) {
         try {
             Commodity commodity = objectMapper.readValue(message, Commodity.class);
-            TimeUnit.SECONDS.sleep(ThreadLocalRandom.current().nextInt(5, 10)); // Simulate processing delay
+            TimeUnit.SECONDS.sleep(ThreadLocalRandom.current().nextInt(5, 10)); // random time between 5 to 10 sec Simulate processing delay
             LOG.info("Notification consumer: {} ", commodity);
         } catch (Exception e) {
             LOG.error("Error processing message: ",  e);

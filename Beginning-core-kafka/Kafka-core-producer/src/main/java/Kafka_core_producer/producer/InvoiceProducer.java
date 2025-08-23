@@ -18,7 +18,7 @@ public class InvoiceProducer {
     private ObjectMapper objectMapper;
 
     public void sendInvoice(Invoice invoice) {
-        try {
+        try {   // with custom partition it work according to even and odd concept
             String json = objectMapper.writeValueAsString(invoice);
             kafkaTemplate.send("t-invoice", (int) invoice.getAmount() % 2, invoice.getInvoiceNumber(), json);
 

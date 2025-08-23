@@ -9,7 +9,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.Arrays;
 
-//@Component
+@Component
 public class CommodityScheduler {
 
     private static final String COMMODITY_API_URL = "http://localhost:8080/api/commodities/v1/all";
@@ -24,7 +24,7 @@ public class CommodityScheduler {
         Commodity[] commodities = restTemplate.getForObject(COMMODITY_API_URL, Commodity[].class);
         if(commodities != null){
             Arrays.stream(commodities)
-                    .forEach(commodityProducer::sendMessage);
+                    .forEach(commodity -> commodityProducer.sendMessage(commodity));
         }
     }
 

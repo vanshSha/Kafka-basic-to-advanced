@@ -13,7 +13,7 @@ import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.retry.annotation.Backoff;
 import org.springframework.stereotype.Service;
 
-@Service
+//@Service
 public class ImageConsumer2 {
 
     private static final Logger LOG = LoggerFactory.getLogger(ImageConsumer2.class);

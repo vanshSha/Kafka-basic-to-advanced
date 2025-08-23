@@ -11,6 +11,6 @@ public class GeneralLedgerProducer {
     private KafkaTemplate<String, String> kafkaTemplate;
 
     public void sendGeneralLedgerMessage(String message){
-        kafkaTemplate.send("t-general-leder", message);
+        kafkaTemplate.send("t-general-ledger", message);
     }
 }

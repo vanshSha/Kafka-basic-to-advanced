@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
-//@Service
+@Service
 public class CommodityDashboardConsumer {
 
     @Autowired
@@ -16,7 +16,7 @@ public class CommodityDashboardConsumer {
 
     private static final Logger LOG = LoggerFactory.getLogger(CommodityDashboardConsumer.class);
 
-    @KafkaListener(topics = "commodity-topic", groupId = "commodity-group-dashboard")
+    @KafkaListener(topics = "t-commodity", groupId = "commodity-group-dashboard")
     public void listen(String message) {
         try {
             Commodity commodity = objectMapper.readValue(message, Commodity.class);

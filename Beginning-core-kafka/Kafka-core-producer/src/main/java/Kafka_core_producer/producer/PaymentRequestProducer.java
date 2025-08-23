@@ -8,7 +8,6 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 @Service
-// this class is alternative approach to filter duplicate purchase requests
 public class PaymentRequestProducer {
 
     @Autowired

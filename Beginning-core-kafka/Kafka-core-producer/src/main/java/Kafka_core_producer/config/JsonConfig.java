@@ -16,3 +16,6 @@ public class JsonConfig {
         return objectMapper;
     }
 }
+
+// when I use simple field like String , double, long don't need of custom Config
+// when I use timestamp and LocalDateTime -> then we should use custom json

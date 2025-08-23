@@ -19,15 +19,15 @@ public class CommodityService {
     private static final double MIN_ADJUSTMENT = 0.95;
     private static final double MAX_ADJUSTMENT = 1.05;
 
-    static{
+    static {
         // initialize base price for commodities
         var timestamp = System.currentTimeMillis();
         COMMODITY_BASE.put(COPPER, new Commodity(COPPER, 10_000, "tonne", timestamp));
         COMMODITY_BASE.put(GOLD, new Commodity(GOLD, 2500, "ounce", timestamp));
     }
 
-    public Commodity generateCommodity(String name){
-        if(!COMMODITY_BASE.containsKey(name)){
+    public Commodity generateCommodity(String name) {
+        if (!COMMODITY_BASE.containsKey(name)) {
             throw new IllegalArgumentException("Invalid commodity name ");
         }
         Commodity baseCommodity = COMMODITY_BASE.get(name);
@@ -41,19 +41,13 @@ public class CommodityService {
 
     }
 
-    public List<Commodity> generateDummyCommodities(){
+    // ketSet is mainly COPPER ADD GOLD
+    public List<Commodity> generateDummyCommodities() {
         return COMMODITY_BASE.keySet().stream()
-                .map(this::generateCommodity)
+                //.map(this::generateCommodity)
+                // map take one record and generate one record
+                .map(key -> this.generateCommodity(key))
                 .collect(Collectors.toList());
     }
-
-
-
-
-
-
-
-
-
 
 }
