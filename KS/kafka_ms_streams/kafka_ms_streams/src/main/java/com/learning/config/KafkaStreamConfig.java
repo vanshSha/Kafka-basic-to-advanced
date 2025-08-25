@@ -3,8 +3,8 @@ package com.learning.config;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.annotation.EnableKafkaStreams;
 
-@Configuration
-@EnableKafkaStreams
+//@Configuration
+//@EnableKafkaStreams
 public class KafkaStreamConfig {
 
 //    @Bean(name = KafkaStreamsDefaultConfiguration.DEFAULT_STREAMS_CONFIG_BEAN_NAME)

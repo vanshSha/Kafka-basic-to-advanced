@@ -27,7 +27,7 @@ public class OrderAction {
 
 
     public Order convertToOrder(OrderRequest request) {
-        var order = new Order();
+        Order order = new Order();
         order.setOrderLocation(request.getOrderLocation());
         order.setCreditCardNumber(request.getCreditCardNumber());
         order.setOrderDateTime(OffsetDateTime.now());
@@ -36,7 +36,7 @@ public class OrderAction {
         var orderItems = request.getItems().stream().map(
                 item -> {
                     var orderItem = new OrderItem();
-                    orderItem.setItemName(item.getIteamName());
+                    orderItem.setItemName(item.getItemName());
                     orderItem.setQuantity(item.getQuantity());
                     orderItem.setPrice(item.getPrice());
                     orderItem.setOrder(order);
@@ -47,13 +47,13 @@ public class OrderAction {
     }
 
 
-    public void saveToDatabase(Order orderEntity) {
-        orderRepository.save(orderEntity);
-        orderEntity.getOrderItems().forEach(orderItemRepository::save);
+    public void saveToDatabase(Order order) {
+        orderRepository.save(order);
+        order.getOrderItems().forEach(item -> orderItemRepository.save(item));
     }
 
     public OrderMessage convertToOrderMessage(OrderItem orderItem) {
-        var orderMessage = new OrderMessage();
+        OrderMessage orderMessage = new OrderMessage();
         orderMessage.setItemName(orderItem.getItemName());
         orderMessage.setPrice(orderItem.getPrice());
         orderMessage.setQuantity(orderItem.getQuantity());

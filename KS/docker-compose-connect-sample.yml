@@ -6,6 +6,7 @@ version: '3.8'
 #    name: kafka-net
 #    driver: bridge
 
+
 services:
   postgres:
     image: postgres:16
@@ -38,6 +39,8 @@ services:
 
 volumes:
   pgdata:
+
+
   #  Volume pgdata will store clean data.
 
   # Uncomment to enable local Elasticsearch

@@ -1,16 +1,19 @@
 package com.learning.broker.stream.customer.preference;
 
 import com.learning.broker.message.CustomerPreferenceAggregateMessage;
-import com.learning.broker.message.CustomerPreferencesShoppingCartMessage;
+import com.learning.broker.message.CustomerPreferenceShoppingCartMessage;
+//import com.learning.broker.message.CustomerShoppingWishlistMessage;
 import org.apache.kafka.streams.kstream.Aggregator;
 
-public class CustomerPreferenceShoppingCartAggregator implements Aggregator<String, CustomerPreferencesShoppingCartMessage, CustomerPreferenceAggregateMessage> {
-    @Override
-    public CustomerPreferenceAggregateMessage apply(String key, CustomerPreferencesShoppingCartMessage value, CustomerPreferenceAggregateMessage aggregate) {
-        {
-            aggregate.putShoppingCarItem(value.getItemName(), value.getCartDatetime());
+public class CustomerPreferenceShoppingCartAggregator implements Aggregator<String, CustomerPreferenceShoppingCartMessage, CustomerPreferenceAggregateMessage> {
 
-            return aggregate;
-        }
+
+    @Override
+    public CustomerPreferenceAggregateMessage apply(String key,
+                                                    CustomerPreferenceShoppingCartMessage value,
+                                                    CustomerPreferenceAggregateMessage aggregate)
+    {
+        aggregate.putShoppingCarItem(value.getItemName(), value.getCartDatetime());
+        return  aggregate;
     }
 }

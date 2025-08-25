@@ -10,7 +10,7 @@ import java.time.OffsetDateTime;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CustomerPreferencesWishlistMessage {
+public class CustomerPreferenceWishlistMessage {
 
     private String customerId;
     private String itemName;

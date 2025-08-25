@@ -13,9 +13,9 @@ import java.util.Locale;
 
 public class CommodityStreamUtil {
     public static OrderMessage maskCreditCardNumber(OrderMessage  orderMessage){
-        String creditCardNumber = orderMessage.getCreditCardNumber();
+        String creditCardNumber = orderMessage.getCreditCardNumber(); // cardNumber + - = total 19
         String maskedCreditCardNumber = "****-****-****-" + creditCardNumber.substring(creditCardNumber.length() - 4);
-
+                            //"HelloWorld"; -> str.substring(5) -> Hello
         return new OrderMessage(
                 orderMessage.getOrderLocation(),
                 orderMessage.getOrderNumber(),
@@ -76,9 +76,13 @@ public class CommodityStreamUtil {
         return (key, orderMessage) ->orderMessage.getPrice() < 100;
     }
 
+    // functional interface (k,V, KR) . it is used to a key , Value pair into a new kR
+    // I want produce
     public static KeyValueMapper<String, OrderMessage, String> generateStrongKey(){
         return(key, orderMessage) -> Base64.getEncoder().encodeToString(orderMessage.getOrderNumber().getBytes());
-    }
+    }                                                 // Base64.getEncoder().encodeToString -> encoded byte into Base64 String ex - "FHEJEJdfne-=="
+      // why choose -> don't contain special char. convert ORD-123 into special char "I1NwZWNpYWxLZXk"
+
 
     public static KeyValueMapper<String, OrderMessage, KeyValue<String, OrderRewardMessage>> mapToOrderRewardChangeKey(){
         return (key, orderMessage) -> KeyValue.pair(orderMessage.getOrderLocation(),

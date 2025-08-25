@@ -3,57 +3,62 @@ version: '3.8'
 services:
   zookeeper:
     image: confluentinc/cp-zookeeper:7.5.0
+    platform: linux/arm64
+    hostname: zookeeper
+    container_name: zookeeper
     ports:
       - "2181:2181"
-    networks:
-        - kafka-net
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
 
   kafka:
     image: confluentinc/cp-kafka:7.5.0
+    platform: linux/arm64
+    hostname: kafka
+    container_name: kafka
     ports:
       - "9092:9092"
-    networks:
-        - kafka-net
     environment:
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
 
-  kafka-connect:
-    image: confluentinc/cp-kafka-connect:7.5.0
-    container_name: kafka-connect
-    restart: unless-stopped
-    networks:
-      - kafka-net
-    ports:
-      - "8083:8083"
-    environment:
-      CONNECT_BOOTSTRAP_SERVERS: kafka:9092
-      CONNECT_REST_PORT: 8083
-      CONNECT_REST_HOST_NAME: kafka-connect
-      CONNECT_GROUP_ID: kafka-connect-group-id
-      CONNECT_CONFIG_STORAGE_TOPIC: _connect-configs
-      CONNECT_OFFSET_STORAGE_TOPIC: _connect-offsets
-      CONNECT_STATUS_STORAGE_TOPIC: _connect-status
-      CONNECT_KEY_CONVERTER: org.apache.kafka.connect.json.JsonConverter
-      CONNECT_VALUE_CONVERTER: org.apache.kafka.connect.json.JsonConverter
-      CONNECT_REST_ADVERTISED_HOST_NAME: kafka-connect
-      CONNECT_LOG4J_APPENDER_STDOUT_LAYOUT_CONVERSIONPATTERN: "[%d] %p %X{connector.context}%m (%c:%L)%n"
-      CONNECT_CONFIG_STORAGE_REPLICATION_FACTOR: "1"
-      CONNECT_OFFSET_STORAGE_REPLICATION_FACTOR: "1"
-      CONNECT_STATUS_STORAGE_REPLICATION_FACTOR: "1"
-      CONNECT_PLUGIN_PATH: /data/connectors
-    volumes:
-      - /Users/vansh/data1/kafka-connect-data/connectors:/data/connectors/
-      - /Users/vansh/data1/kafka-connect-data/inputs:/data/inputs/
-      - /Users/vansh/data1/kafka-connect-data/errors:/data/errors/
-      - /Users/vansh/data1/kafka-connect-data/processed:/data/processed/
 
-
-    depends_on:
-      - kafka
+#  kafka-connect:
+#    image: confluentinc/cp-kafka-connect:7.5.0
+#    platform: linux/arm64
+#    hostname: kafka
+#    container_name: kafka-connect
+#    restart: unless-stopped
+#    networks:
+#      - kafka-net
+#    ports:
+#      - "8083:8083"
+#    environment:
+#      CONNECT_BOOTSTRAP_SERVERS: kafka:9092
+#      CONNECT_REST_PORT: 8083
+#      CONNECT_REST_HOST_NAME: kafka-connect
+#      CONNECT_GROUP_ID: kafka-connect-group-id
+#      CONNECT_CONFIG_STORAGE_TOPIC: _connect-configs
+#      CONNECT_OFFSET_STORAGE_TOPIC: _connect-offsets
+#      CONNECT_STATUS_STORAGE_TOPIC: _connect-status
+#      CONNECT_KEY_CONVERTER: org.apache.kafka.connect.json.JsonConverter
+#      CONNECT_VALUE_CONVERTER: org.apache.kafka.connect.json.JsonConverter
+#      CONNECT_REST_ADVERTISED_HOST_NAME: kafka-connect
+#      CONNECT_LOG4J_APPENDER_STDOUT_LAYOUT_CONVERSIONPATTERN: "[%d] %p %X{connector.context}%m (%c:%L)%n"
+#      CONNECT_CONFIG_STORAGE_REPLICATION_FACTOR: "1"
+#      CONNECT_OFFSET_STORAGE_REPLICATION_FACTOR: "1"
+#      CONNECT_STATUS_STORAGE_REPLICATION_FACTOR: "1"
+#      CONNECT_PLUGIN_PATH: /data/connectors
+#    volumes:
+#      - /Users/vansh/data1/kafka-connect-data/connectors:/data/connectors/
+#      - /Users/vansh/data1/kafka-connect-data/inputs:/data/inputs/
+#      - /Users/vansh/data1/kafka-connect-data/errors:/data/errors/
+#      - /Users/vansh/data1/kafka-connect-data/processed:/data/processed/
+#
+#
+#    depends_on:
+#      - kafka
 
 networks:
   kafka-net:

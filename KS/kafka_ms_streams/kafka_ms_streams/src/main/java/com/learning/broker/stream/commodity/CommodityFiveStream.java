@@ -27,7 +27,7 @@ public class CommodityFiveStream {
     }
 
     @Autowired
-    void kstreamCommodityTrading(StreamsBuilder builder) {
+    void kStreamCommodityTrading(StreamsBuilder builder) {
         var orderSerde = new JsonSerde<>(OrderMessage.class);
         var orderPatternSerde = new JsonSerde<>(OrderPatternMessage.class);
         var orderRewardSerde = new JsonSerde<>(OrderRewardMessage.class);
@@ -45,7 +45,7 @@ public class CommodityFiveStream {
 
                 ).defaultBranch(
                         Branched.<String, OrderPatternMessage>withConsumer(
-                                ks -> ks.to("t-commodity--five-pattern-nonplastic",
+                                ks -> ks.to("t-commodity-five-pattern-nonplastic",
                                         Produced.with(stringSerde, orderPatternSerde))));
 
 

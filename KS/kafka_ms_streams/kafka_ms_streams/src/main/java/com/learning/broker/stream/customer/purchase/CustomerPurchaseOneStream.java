@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 //@Component
 public class CustomerPurchaseOneStream {
     @Autowired
-    void kstreamCustomerPurchase(StreamsBuilder builder) {
+    void kStreamCustomerPurchase(StreamsBuilder builder) {
         var stringSerde = Serdes.String();
 
         var customerPurchaseMobileStream = builder.stream("t-commodity-customer-purchase-mobile",

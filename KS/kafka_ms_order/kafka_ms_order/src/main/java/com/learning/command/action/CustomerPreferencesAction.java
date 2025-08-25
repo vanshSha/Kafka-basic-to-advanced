@@ -3,7 +3,7 @@ package com.learning.command.action;
 import com.learning.api.request.CustomerPreferencesShoppingCartRequest;
 import com.learning.api.request.CustomerPreferencesWishlistRequest;
 import com.learning.broker.message.CustomerPreferenceShoppingCartMessage;
-import com.learning.broker.message.CustomerPreferencesWishlistMessage;
+import com.learning.broker.message.CustomerPreferenceWishlistMessage;
 import com.learning.broker.producer.CustomerPreferencesProducer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -24,7 +24,7 @@ public class CustomerPreferencesAction {
     }
 
     public void publishWishlist(CustomerPreferencesWishlistRequest request) {
-        var message = new CustomerPreferencesWishlistMessage(request.getCustomerId(), request.getItemName(),
+        var message = new CustomerPreferenceWishlistMessage(request.getCustomerId(), request.getItemName(),
                 OffsetDateTime.now());
 
         producer.publishWishlist(message);

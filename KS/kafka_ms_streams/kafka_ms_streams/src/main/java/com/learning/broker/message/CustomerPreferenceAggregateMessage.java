@@ -18,11 +18,12 @@ public class CustomerPreferenceAggregateMessage {
 
     private Map<String, String> shoppingCartItems;
 
-    public void putShoppingCarItem(String itemName, OffsetDateTime lastDateTime){
+    // a standard way of writing date + time like YYYY-MM-DDTHH:mm:ss.
+    public void putShoppingCarItem(String itemName, OffsetDateTime lastDateTime) {
         shoppingCartItems.put(itemName, DateTimeFormatter.ISO_DATE_TIME.format(lastDateTime));
     }
 
-    public void putWishlistItem(String itemName, OffsetDateTime lastDateTime){
+    public void putWishlistItem(String itemName, OffsetDateTime lastDateTime) {
         wishlistItems.put(itemName, DateTimeFormatter.ISO_WEEK_DATE.format(lastDateTime));
-    }
+    }                                        // represent Year + Week number + Day of week.
 }

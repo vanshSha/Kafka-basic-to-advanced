@@ -1,8 +1,9 @@
 package com.learning.broker.stream.customer.preference;
 
 import com.learning.broker.message.CustomerPreferenceAggregateMessage;
-import com.learning.broker.message.CustomerPreferencesShoppingCartMessage;
-import com.learning.broker.message.CustomerPreferencesWishlistMessage;
+import com.learning.broker.message.CustomerPreferenceShoppingCartMessage;
+import com.learning.broker.message.CustomerPreferenceWishlistMessage;
+//import com.learning.broker.message.CustomerShoppingWishlistMessage;
 import org.apache.kafka.common.serialization.Serdes;
 import org.apache.kafka.streams.StreamsBuilder;
 import org.apache.kafka.streams.kstream.Consumed;
@@ -12,23 +13,27 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.support.serializer.JsonSerde;
 import org.springframework.stereotype.Component;
 
-//@Component
-public class CustomerPreferencesOneStream {
+@Component
+public class  CustomerPreferencesOneStream {
 
     private static final CustomerPreferenceShoppingCartAggregator SHOPPING_CART_AGGREGATOR = new CustomerPreferenceShoppingCartAggregator();
 
-    private static final CustomerPreferencesWishlistAggregate WISHLIST_AGGREGATOR = new CustomerPreferencesWishlistAggregate();
+    private static final CustomerPreferenceWishlistAggregate WISHLIST_AGGREGATOR = new CustomerPreferenceWishlistAggregate();
 
     @Autowired
-    void kstreamCustomerPreference(StreamsBuilder streamsBuilder){
+    void kStreamCustomerPreference(StreamsBuilder streamsBuilder){
         var stringSerde = Serdes.String();
-        var shoppingCartSerde = new JsonSerde<>(CustomerPreferencesShoppingCartMessage.class);
-        var wishlistSerde = new JsonSerde<>(CustomerPreferencesWishlistMessage.class);
+
+        var shoppingCartSerde = new JsonSerde<>(CustomerPreferenceShoppingCartMessage.class);
+
+        var wishlistSerde = new JsonSerde<>(CustomerPreferenceWishlistMessage.class);
+
         var aggregateSerde = new JsonSerde<>(CustomerPreferenceAggregateMessage.class);
-        var groupedShoppingCartStream = streamsBuilder.stream("t-commodity-preference-shopping-cart",
+
+        var groupedShoppingCartStream = streamsBuilder.stream("t-commodity-customer-preference-shopping-cart",
                 Consumed.with(stringSerde, shoppingCartSerde)).groupByKey();
 
-        var groupedWishlistStream = streamsBuilder.stream("t-commodity-preference-wishlist",
+        var groupedWishlistStream = streamsBuilder.stream("t-commodity-customer-preference-wishlist",
                 Consumed.with(stringSerde, wishlistSerde)).groupByKey();
 
         var customerPreferenceStream = groupedShoppingCartStream

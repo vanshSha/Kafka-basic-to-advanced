@@ -4,10 +4,12 @@ import com.learning.broker.message.OrderMessage;
 import com.learning.broker.message.OrderPatternMessage;
 import com.learning.broker.message.OrderRewardMessage;
 import com.learning.util.CommodityStreamUtil;
+import org.apache.kafka.common.serialization.Serde;
 import org.apache.kafka.common.serialization.Serdes;
 import org.apache.kafka.streams.StreamsBuilder;
 import org.apache.kafka.streams.kstream.Branched;
 import org.apache.kafka.streams.kstream.Consumed;
+import org.apache.kafka.streams.kstream.KStream;
 import org.apache.kafka.streams.kstream.Produced;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.support.serializer.JsonSerde;
@@ -18,16 +20,17 @@ import org.springframework.stereotype.Component;
 public class CommodityThreeStream {
 
     @Autowired
-    void kstreamCommodityTrading(StreamsBuilder builder) {
-        var orderSerde = new JsonSerde<>(OrderMessage.class);
-        var orderPatternSerde = new JsonSerde<>(OrderPatternMessage.class);
-        var orderRewardSerde = new JsonSerde<>(OrderRewardMessage.class);
-        var stringSerde = Serdes.String();
+    void kStreamCommodityTrading(StreamsBuilder builder) {
+        JsonSerde<OrderMessage> orderSerde = new JsonSerde<>(OrderMessage.class);
+        JsonSerde<OrderPatternMessage> orderPatternSerde = new JsonSerde<>(OrderPatternMessage.class);
+        JsonSerde<OrderRewardMessage> orderRewardSerde = new JsonSerde<>(OrderRewardMessage.class);
+        Serde<String> stringSerde = Serdes.String();
 
-        var maskedCreditCardStream = builder.stream("t-commodity-order", Consumed.with(Serdes.String(), orderSerde))
-                .mapValues(CommodityStreamUtil::maskCreditCardNumber);
+        KStream<String, OrderMessage> maskedCreditCardStream = builder.stream("t-commodity-order", Consumed.with(Serdes.String(), orderSerde))
+                .mapValues(commodity -> CommodityStreamUtil.maskCreditCardNumber(commodity));
 
-        maskedCreditCardStream.mapValues(CommodityStreamUtil::convertToOrderPatternMessage)
+
+        maskedCreditCardStream.mapValues(commodity1 -> CommodityStreamUtil.convertToOrderPatternMessage(commodity1))
                 .split()
                 .branch(CommodityStreamUtil.isPlasticItem(),
                         Branched.<String, OrderPatternMessage>withConsumer(

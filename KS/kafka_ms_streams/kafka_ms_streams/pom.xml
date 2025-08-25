@@ -22,20 +22,21 @@
 	</properties>
 
 	<dependencies>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web</artifactId>
-		</dependency>
 
+
+		<!-- Kafka Streams core -->
 		<dependency>
 			<groupId>org.apache.kafka</groupId>
 			<artifactId>kafka-streams</artifactId>
 		</dependency>
 
+
+		<!-- Spring Kafka Streams (enables StreamsBuilderFactoryBean auto config) -->
 		<dependency>
-			<groupId>org.springframework.kafka</groupId>
-			<artifactId>spring-kafka</artifactId>
+			<groupId>org.apache.kafka</groupId>
+			<artifactId>kafka-streams</artifactId>
 		</dependency>
+
 
 		<!-- Lombok (compile only) -->
 		<dependency>
@@ -55,13 +56,14 @@
 			<artifactId>spring-kafka-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-        <dependency>
-            <groupId>com.learning</groupId>
-            <artifactId>kafka_ms_order</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-            <scope>compile</scope>
-        </dependency>
-    </dependencies>
+<!--        <dependency>-->
+<!--            <groupId>com.learning</groupId>-->
+<!--            <artifactId>kafka_ms_order</artifactId>-->
+<!--            <version>0.0.1-SNAPSHOT</version>-->
+<!--            <scope>compile</scope>-->
+<!--        </dependency>-->
+
+	</dependencies>
 
 	<build>
 		<plugins>

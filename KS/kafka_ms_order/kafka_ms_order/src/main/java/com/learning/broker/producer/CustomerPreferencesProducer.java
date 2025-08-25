@@ -1,7 +1,7 @@
 package com.learning.broker.producer;
 
 import com.learning.broker.message.CustomerPreferenceShoppingCartMessage;
-import com.learning.broker.message.CustomerPreferencesWishlistMessage;
+import com.learning.broker.message.CustomerPreferenceWishlistMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
@@ -16,7 +16,7 @@ public class CustomerPreferencesProducer {
         kafkaTemplate.send("t-commodity-customer-preference-shopping-cart", message.getCustomerId(), message);
     }
 
-    public void publishWishlist(CustomerPreferencesWishlistMessage message) {
+    public void publishWishlist(CustomerPreferenceWishlistMessage message) {
         kafkaTemplate.send("t-commodity-customer-preference-wishlist", message.getCustomerId(), message);
     }
 

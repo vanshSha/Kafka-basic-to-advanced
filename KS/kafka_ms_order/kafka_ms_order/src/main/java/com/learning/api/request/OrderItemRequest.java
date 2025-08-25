@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class OrderItemRequest {
 
-    private String iteamName;
+    private String itemName;
 
     private int price;
 

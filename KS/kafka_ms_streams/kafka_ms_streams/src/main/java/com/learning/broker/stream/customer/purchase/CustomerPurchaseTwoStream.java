@@ -11,7 +11,7 @@ import java.util.List;
 //@Component
 public class CustomerPurchaseTwoStream {
     @Autowired
-    void kstreamCustomerPurchase(StreamsBuilder builder) {
+    void kStreamCustomerPurchase(StreamsBuilder builder) {
         var stringSerde = Serdes.String();
         var topic = List.of("t-commodity-customer-purchase-mobile", "t-commodity-customer-purchase-web");
         builder.stream(topic, Consumed.with(stringSerde, stringSerde)).to("t-commodity-customer-purchase-all");

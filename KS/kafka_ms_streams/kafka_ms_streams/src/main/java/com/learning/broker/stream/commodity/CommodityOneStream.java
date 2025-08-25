@@ -18,7 +18,7 @@ import org.springframework.stereotype.Component;
 public class CommodityOneStream {
 
     @Autowired
-    void kstreamCommodityTrading(StreamsBuilder builder){
+    void kStreamCommodityTrading(StreamsBuilder builder){
         var orderSerde = new JsonSerde<>(OrderMessage.class);
         var orderPatternSerde = new JsonSerde<>(OrderPatternMessage.class);
         var orderRewardSerde = new JsonSerde<>(OrderRewardMessage.class);
