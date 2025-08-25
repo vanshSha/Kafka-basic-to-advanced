@@ -1,13 +1,13 @@
 package com.learning.broker.stream.customer.preference;
 
 import com.learning.broker.message.CustomerPreferenceAggregateMessage;
-import com.learning.broker.message.CustomerPreferencesWishlistMessage;
+import com.learning.broker.message.CustomerPreferenceWishlistMessage;
 import org.apache.kafka.streams.kstream.Aggregator;
 
 public class CustomerPreferencesWishlistAggregate implements Aggregator<
-String, CustomerPreferencesWishlistMessage, CustomerPreferenceAggregateMessage> {
+String, CustomerPreferenceWishlistMessage, CustomerPreferenceAggregateMessage> {
     @Override
-    public CustomerPreferenceAggregateMessage apply(String key, CustomerPreferencesWishlistMessage value, CustomerPreferenceAggregateMessage aggregate) {
+    public CustomerPreferenceAggregateMessage apply(String key, CustomerPreferenceWishlistMessage value, CustomerPreferenceAggregateMessage aggregate) {
         aggregate.putWishlistItem(value.getItemName(), value.getWishlistDatetime());
         return aggregate;
     }
