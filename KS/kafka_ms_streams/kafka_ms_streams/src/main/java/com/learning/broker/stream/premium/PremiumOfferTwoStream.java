@@ -17,7 +17,7 @@ import java.util.List;
 // left join . i am joining kStream and kTable
 //@Component
 public class PremiumOfferTwoStream {
-
+    //PremiumPurchaseMessage.,PremiumUserMessage
     private PremiumOfferMessage joiner(PremiumPurchaseMessage purchase, PremiumUserMessage user){
         var result = new PremiumOfferMessage();
 

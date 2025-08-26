@@ -3,7 +3,6 @@ package com.learning.broker.stream.customer.preference;
 import com.learning.broker.message.CustomerPreferenceAggregateMessage;
 import com.learning.broker.message.CustomerPreferenceShoppingCartMessage;
 import com.learning.broker.message.CustomerPreferenceWishlistMessage;
-//import com.learning.broker.message.CustomerShoppingWishlistMessage;
 import org.apache.kafka.common.serialization.Serdes;
 import org.apache.kafka.streams.StreamsBuilder;
 import org.apache.kafka.streams.kstream.Consumed;
@@ -13,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.support.serializer.JsonSerde;
 import org.springframework.stereotype.Component;
 
-@Component
+//@Component
 public class  CustomerPreferencesOneStream {
 
     private static final CustomerPreferenceShoppingCartAggregator SHOPPING_CART_AGGREGATOR = new CustomerPreferenceShoppingCartAggregator();
@@ -31,7 +30,8 @@ public class  CustomerPreferencesOneStream {
         var aggregateSerde = new JsonSerde<>(CustomerPreferenceAggregateMessage.class);
 
         var groupedShoppingCartStream = streamsBuilder.stream("t-commodity-customer-preference-shopping-cart",
-                Consumed.with(stringSerde, shoppingCartSerde)).groupByKey();
+                Consumed.with(stringSerde, shoppingCartSerde)).groupByKey();// I have data and with key . i will group data by
+        // a key
 
         var groupedWishlistStream = streamsBuilder.stream("t-commodity-customer-preference-wishlist",
                 Consumed.with(stringSerde, wishlistSerde)).groupByKey();
@@ -41,7 +41,7 @@ public class  CustomerPreferencesOneStream {
                 .cogroup(groupedWishlistStream, WISHLIST_AGGREGATOR)
                 .aggregate(
                         () -> new CustomerPreferenceAggregateMessage(),
-                        Materialized.with(stringSerde, aggregateSerde)
+                        Materialized.with(stringSerde, aggregateSerde) // how to store in aggregate
                 ).toStream();
         customerPreferenceStream.to("t-commodity-customer-preferences-all",
                 Produced.with(stringSerde, aggregateSerde));

@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class PremiumPurchaseRequest {
+public class PremiumPurchaseMessage {
 
     private String item;
 

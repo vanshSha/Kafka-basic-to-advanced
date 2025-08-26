@@ -13,7 +13,7 @@ public class CustomerPreferenceShoppingCartAggregator implements Aggregator<Stri
                                                     CustomerPreferenceShoppingCartMessage value,
                                                     CustomerPreferenceAggregateMessage aggregate)
     {
-        aggregate.putShoppingCarItem(value.getItemName(), value.getCartDatetime());
+        aggregate.putShoppingCartItem(value.getItemName(), value.getCartDatetime());
         return  aggregate;
     }
 }
