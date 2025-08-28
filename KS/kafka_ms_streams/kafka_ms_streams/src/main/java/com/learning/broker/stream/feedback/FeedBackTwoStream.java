@@ -19,21 +19,21 @@ package com.learning.broker.stream.feedback;
             private static final Set<String> GOOD_WORDS = Set.of("happy", "good", "helpful");
 
             @Autowired
-            void kstreamFeedback(StreamsBuilder builder) {
+            void kStreamFeedback(StreamsBuilder builder) {
                 var stringSerde = Serdes.String();
                 var feedbackSerde = new JsonSerde<>(FeedBackMessage.class);
 
                 var goodFeedbackStream = builder
                         .stream("t-commodity-feedback", Consumed.with(stringSerde, feedbackSerde))
-                        .flatMap(
+                        .flatMap(         // replaceAll("[^a-zA-Z ]", "") remove everything expect letters and spaces.
                                 (key, value) -> Arrays
                                         .asList(value.getFeedback().replaceAll("[^a-zA-Z ]", "")
                                                 .toLowerCase().split("\\s+"))
                                         .stream()
                                         .filter(word -> GOOD_WORDS.contains(word))
-                                        .distinct()
+                                        .distinct()            // here i am creating new key KeyValue.pair (key + value)
                                         .map(goodWord -> KeyValue.pair(value.getLocation(),
-                                                goodWord))
+                                                goodWord)) // this line getLocation convert into key
                                         .collect(Collectors.toList()));
 
                 goodFeedbackStream.to("t-commodity-feedback-two-good");

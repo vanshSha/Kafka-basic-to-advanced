@@ -31,25 +31,21 @@ public class FeedBackSixStream {
                         ks -> {
                             ks.repartition(Repartitioned.as("t-commodity-feedback-six-good"))
                                     .groupByKey().count().toStream().to("t-commodity-feedback-six-good-count");
-                            ks.groupBy(
+                            ks.groupBy( // convert Stream -> kGroupedTable -> KTable -> KStream
                                     (key, value) -> value
                             ).count().toStream().to("t-commodity-feedback-six-good-count-word");
 
                         }))
                 .branch(isBadWord(),
                         Branched.withConsumer(
-                                ks ->{ ks.repartition(Repartitioned.as("t-commodity-feedback-six-bad"))
-                                        .groupByKey().count().toStream().to("t-commodity-feedback-six-bad-count");
+                                ks -> {
+                                    ks.repartition(Repartitioned.as("t-commodity-feedback-six-bad"))
+                                            .groupByKey().count().toStream().to("t-commodity-feedback-six-bad-count");
                                     ks.groupBy(
-                                            (key, value) -> value).count().toStream()
+                                                    (key, value) -> value).count().toStream()
                                             .to("t-commodity-feedback-six-bad-count-word");
                                 }));
-//                .branch(isGoodWord(), isBadWord());
-//        feedbackStreams[0].through("t-commodity-feedback-five-good")
-//                .groupByKey().count().toStream().to("t-commodity-feedback-five-good-count");
-//
-//        feedbackStreams[1].through("t-commodity-feedback-five-bad")
-//                .groupByKey().count().toStream().to("t-commodity-feedback-five-bad-count");
+
     }
 
     private Predicate<String, String> isBadWord() {

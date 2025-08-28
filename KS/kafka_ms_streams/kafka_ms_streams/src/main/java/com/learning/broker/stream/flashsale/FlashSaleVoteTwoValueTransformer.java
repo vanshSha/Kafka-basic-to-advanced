@@ -6,7 +6,10 @@ import org.apache.kafka.streams.processor.ProcessorContext;
 
 import java.time.OffsetDateTime;
 
+/*
+ValueTransformer : This is interface in kafka Stream for custom value transformation.
 
+ */
 public class FlashSaleVoteTwoValueTransformer implements ValueTransformer<FlashSaleVoteMessage, FlashSaleVoteMessage> {
 
     private final long voteStartTime;

@@ -20,8 +20,12 @@ public class FeedBackAction {
         message.setFeedback(request.getFeedback());
         message.setLocation(request.getLocation());
         message.setRating(request.getRating());
-        // random date time between last 7 days - now
-        message.setFeedbackDateTime(OffsetDateTime.now().minusHours(ThreadLocalRandom.current().nextLong(7 * 7)));
+        // random date time between last 7 days - now    24* 7 = 168 hours
+        // ThreadLocalRandom.current().nextLong(7 * 24)  give random long number between 0 to 167
+        // OffsetDateTime.now()  current date time
+        // I passed int but prefer 168L
+        message.setFeedbackDateTime(OffsetDateTime.now().minusHours(ThreadLocalRandom.current().nextLong(7 * 24)));
+        // minusHours this method does go backword for current time
 
         producer.publish(message);
     }

@@ -13,7 +13,7 @@ public class FlashSaleVoteAction {
  private FlashSaleVoteProducer producer;
 
 public void publishToKafka(FlashSaleVoteRequest request){
-    var message = new FlashSaleVoteMessage();
+    FlashSaleVoteMessage message = new FlashSaleVoteMessage();
 
     message.setCustomerId(request.getCustomerId());
     message.setItemName(request.getItemName());

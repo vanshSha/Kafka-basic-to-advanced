@@ -19,9 +19,14 @@ public class FeedBackFiveStream {
     private static final Set<String> GOOD_WORDS = Set.of("happy", "good", "helpful");
     private static final Set<String> BAD_WORDS = Set.of("angry", "sad", "bad");
 
+/*
+SuppressWarnings - Warnings are shown at compile time, not at runtime.
+"deprecation" - this method still works, but it is old and may remove in the  future
+"unchecked" - Unchecked warning means the compiler cannot ensure type safety
+ ex -  Example: assigning raw List to List<String> → compiler says: “I can’t check this safely.” */
     @SuppressWarnings({"deprecation", "unchecked"})
     @Autowired
-    void kstreamFeedback(StreamsBuilder builder) {
+    void kStreamFeedback(StreamsBuilder builder) {
         var stringSerde = Serdes.String();
         var feedbackSerde = new JsonSerde<>(FeedBackMessage.class);
 

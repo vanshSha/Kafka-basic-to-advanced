@@ -23,7 +23,7 @@ public class FeedBackThreeStream {
     private static final Set<String> BAD_WORDS = Set.of("angry", "sad", "bad");
 
     @Autowired
-    void kstreamFeedback(StreamsBuilder builder) {
+    void kStreamFeedback(StreamsBuilder builder) {
         var stringSerde = Serdes.String();
         var feedbackSerde = new JsonSerde<>(FeedBackMessage.class);
 

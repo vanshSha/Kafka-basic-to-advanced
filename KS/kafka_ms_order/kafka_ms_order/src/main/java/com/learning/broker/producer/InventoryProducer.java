@@ -12,6 +12,7 @@ public class InventoryProducer {
     private KafkaTemplate<String, InventoryMessage> kafkaTemplate;
 
     public void publish(InventoryMessage message){
-        kafkaTemplate.send("t-commodity-inventory", message.getItem(), message);
+        kafkaTemplate.send("t-commodity-inventory",
+                message.getItem(), message);
     }
 }

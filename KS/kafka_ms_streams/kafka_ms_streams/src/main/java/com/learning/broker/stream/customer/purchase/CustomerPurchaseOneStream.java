@@ -16,7 +16,7 @@ public class CustomerPurchaseOneStream {
                 Consumed.with(stringSerde, stringSerde));
         var customerPurchaseWebStream = builder.stream("t-commodity-customer-purchase-web",
                 Consumed.with(stringSerde, stringSerde));
-
+        // merge basically used for convert 2 stream into 1 stream.
         customerPurchaseMobileStream.merge(customerPurchaseWebStream).to("t-commodity-customer-purchase-all");
     }
 }

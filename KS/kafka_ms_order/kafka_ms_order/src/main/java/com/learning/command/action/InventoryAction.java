@@ -13,7 +13,7 @@ public class InventoryAction {
     private InventoryProducer producer;
 
     public void publishToKafka(InventoryRequest request, String type){
-        var message = new InventoryMessage();
+        InventoryMessage message = new InventoryMessage();
         message.setLocation(request.getLocation());
         message.setItem(request.getItem());
         message.setQuantity(request.getQuantity());

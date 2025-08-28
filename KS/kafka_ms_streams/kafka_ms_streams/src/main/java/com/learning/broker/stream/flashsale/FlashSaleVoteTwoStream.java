@@ -14,23 +14,25 @@ import java.time.OffsetDateTime;
 //@Component
 public class FlashSaleVoteTwoStream {
 
+    // plusMinutes(2); -> add 2 min in current time
+    //
     @Autowired
     void flashSaleVoteOneStream(StreamsBuilder builder) {
         var stringSerde = Serdes.String();
         var flashSaleVoteSerde = new JsonSerde<>(FlashSaleVoteMessage.class);
-        var voteStart = OffsetDateTime.now().plusMinutes(2);
-        var voteEnd = voteStart.plusHours(1);
+        var voteStart = OffsetDateTime.now().plusMinutes(2); // here sale start from current time + 2min
+        var voteEnd = voteStart.plusHours(1); // here sale end current time + 2min to after 1 hour
 
         builder.stream("t-commodity-flashsale-vote", Consumed.with(stringSerde, flashSaleVoteSerde))
-                .transformValues(
+                .transformValues( // here i am creating new object same as flatMap
                         () -> new FlashSaleVoteTwoValueTransformer(voteStart, voteEnd))
-                .filter(
-                        (key,transformedValue) -> transformedValue != null)
-                .map(
+                .filter( // if transformedValue is not null then fill filter otherwise dorp it.
+                        (key, transformedValue) -> transformedValue != null)
+                .map(                                          // here i am changing key - getCustomerId, value - getItemName
                         (key, value) -> KeyValue.pair(value.getCustomerId(), value.getItemName()))
                 .to("t-commodity-flashsale-vote-two-user-item");
         builder.table("t-commodity-flashsale-vote-two-user-item", Consumed.with(stringSerde, stringSerde))
-                .groupBy(
+                .groupBy( // here i am converting ktable into KGroupTable
                         (user, votedItem) -> KeyValue.pair(votedItem, votedItem))
                 .count()
                 .toStream()

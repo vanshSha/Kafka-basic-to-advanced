@@ -21,8 +21,9 @@ public class FlashSaleVoteOneStream {
                 .map(
                         (key, value) -> KeyValue.pair(value.getCustomerId(), value.getItemName()))
                 .to("t-commodity-flashsale-vote-one-user-item");
+
         builder.table("t-commodity-flashsale-vote-one-user-item", Consumed.with(stringSerde, stringSerde))
-                .groupBy(
+                .groupBy( // kT -> KGT. here i am changing user key into -> votedItem
                         (user, votedItem) -> KeyValue.pair(votedItem, votedItem))
                 .count()
                 .toStream()

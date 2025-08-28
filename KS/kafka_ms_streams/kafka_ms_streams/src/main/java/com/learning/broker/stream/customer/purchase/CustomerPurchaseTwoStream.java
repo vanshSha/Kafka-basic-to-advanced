@@ -10,6 +10,7 @@ import java.util.List;
 
 //@Component
 public class CustomerPurchaseTwoStream {
+ // same thing but way
     @Autowired
     void kStreamCustomerPurchase(StreamsBuilder builder) {
         var stringSerde = Serdes.String();
