@@ -27,8 +27,6 @@
           mvn spring-boot:run
 
 
-
-
         # Microservice Description
 
          - API
@@ -52,8 +50,6 @@
 
          - Repository
               -  Provides data access methods
-
-
 
 
 # Kafka_ms_streams
