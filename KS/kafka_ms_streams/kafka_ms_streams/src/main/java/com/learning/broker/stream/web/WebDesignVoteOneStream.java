@@ -56,9 +56,11 @@ public class WebDesignVoteOneStream {
 
 
         // Join to produce WebDesignVoteMessage
+        // here i join 2 table
         var joinTable = colorTable.join(layoutTable, this::voteJoiner,
                 Materialized.with(stringSerde, designSerde));
 
+        // here i am converting table into stream
         joinTable.toStream().to(
                 "t-commodity-web-vote-one-result",
                 Produced.with(stringSerde, designSerde)
