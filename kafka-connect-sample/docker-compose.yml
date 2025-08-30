@@ -24,12 +24,14 @@ services:
       - kafka-net
     environment:
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092,PLAINTEXT_INTERNAL://0.0.0.0:9093   kafka:9093
       KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092,PLAINTEXT_INTERNAL://kafka:9093
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_INTERNAL:PLAINTEXT
-      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092,PLAINTEXT_INTERNAL://0.0.0.0:9093
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT_INTERNAL
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
 
+  #  PLAINTEXT - host
+  #  PLAINTEXT_INTERNAL - internal
   #   KAFKA CONNECT
 
   kafka-connect:
@@ -86,7 +88,7 @@ services:
     networks:
       - kafka-net
 
-# kakfa-schema-registry
+  # kakfa-schema-registry
 
   kafka-schema-registry:
     image: confluentinc/cp-schema-registry:7.5.0
@@ -107,7 +109,7 @@ services:
 
   sftp:
     image: atmoz/sftp:alpine
-    platform: linux/arm64
+    platform: linux/amd64
     hostname: sftp-server
     container_name: sftp-server
     restart: unless-stopped
@@ -128,3 +130,7 @@ volumes:
 networks:
   kafka-net:
     driver: bridge
+
+    #networks:  -> Multiple Compose files needing shared network
+    #  kafka-net:
+    #    external: tru
