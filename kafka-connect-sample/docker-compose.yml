@@ -3,6 +3,9 @@ version: '3.8'
 services:
   zookeeper:
     image: confluentinc/cp-zookeeper:7.5.0
+    platform: linux/arm64
+    hostname: zookeeper
+    container_name: zookeeper
     ports:
       - "2181:2181"
     networks:
@@ -12,6 +15,9 @@ services:
 
   kafka:
     image: confluentinc/cp-kafka:7.5.0
+    platform: linux/arm64
+    hostname: kafka
+    container_name: kafka
     ports:
       - "9092:9092"
     networks:
@@ -28,6 +34,8 @@ services:
 
   kafka-connect:
     image: confluentinc/cp-kafka-connect:7.5.0
+    platform: linux/arm64
+    hostname: kafka
     container_name: kafka-connect
     restart: unless-stopped
     networks:
@@ -63,6 +71,8 @@ services:
   #  POSTGRES
   postgres:
     image: postgres:16
+    platform: linux/arm64/v8
+    hostname: postgres
     container_name: postgres
     restart: unless-stopped
     ports:
@@ -79,8 +89,10 @@ services:
 # kakfa-schema-registry
 
   kafka-schema-registry:
-    image: confluentinc/cp-schema-registry:7.7.0
-    container_name: kafka-schema-registry
+    image: confluentinc/cp-schema-registry:7.5.0
+    platform: linux/arm64
+    hostname: schema-registry
+    container_name: schema-registry
     restart: unless-stopped
     networks:
       - kafka-net
@@ -92,44 +104,12 @@ services:
       SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS: PLAINTEXT://kafka:29092
     depends_on:
       - kafka
-  # CONDUKTOR-CONSOLE i was not able to connect by config but. I use through app
-#  conduktor-console:
-#    image: conduktor/conduktor-console:1.26.0
-#    hostname: conduktor-platform
-#    container_name: conduktor-console
-#    restart: unless-stopped
-#    ports:
-#      - "8080:8080"
-#    depends_on:
-#      - kafka
-#      - postgres
-#    environment:
-#      CDK_DATABASE_URL: "postgresql://myuser:mypassword@postgres:5432/mydb"
-#      CDK_MONITORING_CORTEX_URL: http://conduktor-monitoring:9009/
-#      CDK_MONITORING_ALERT_MANAGER_URL: http://conduktor-monitoring:9010/
-#      CDK_MONITORING_CALLBACK_URL: http://conduktor-platform:8080/monitoring/api/
-#      CDK_MONITORING_NOTIFICATIONS_CALLBACK_URL: http://localhost:8080
-#    networks:
-#      - kafka-net
 
-  # CONDUKTOR - MONITORING
-#  conduktor-monitoring:
-#    image: conduktor/conduktor-console-cortex:1.26.0
-#    hostname: conduktor-monitoring
-#    container_name: conduktor-monitoring
-#    restart: unless-stopped
-#    depends_on:
-#      - conduktor-console
-#    environment:
-#      CDK_MONITORING_CONSOLE_URL: '{"console_url": "http://conduktor-console:8080"}'
-#    networks:
-#      - kafka-net
-
-  # SFTP
   sftp:
     image: atmoz/sftp:alpine
+    platform: linux/arm64
+    hostname: sftp-server
     container_name: sftp-server
-    platform: linux/amd64   # ✅ force compatibility with Intel-only image
     restart: unless-stopped
     ports:
       - "2222:22"
