@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="kafka-REST-Proxy" />
+        <module name="kafka_ms_streams" />
+      </profile>
+      <profile name="Annotation profile for kafka_ms_order" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.38/lombok-1.18.38.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.38/lombok-1.18.38.jar" />
+        </processorPath>
+        <module name="com.course.kafka (1) (kafka-ms-pattern)" />
+        <module name="Kafka-core-producer" />
+        <module name="kafka_ms_order" />
+        <module name="kafka-connect-sample" />
+        <module name="Kafka-core-consumer" />
+        <module name="com.course.kafka" />
+        <module name="kafka-ms_storage" />
+        <module name="com.course.kafka (2) (kafka-ms-reward)" />
+        <module name="course_order" />
+        <module name="kafka_sample" />
+        <module name="kafka-ksqldb-sample" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="com.course.kafka" target="17" />
+    </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="Kafka-core-consumer" options="-parameters" />
+      <module name="Kafka-core-producer" options="-parameters" />
+      <module name="com.course.kafka" options="-parameters" />
+      <module name="com.course.kafka (1) (kafka-ms-pattern)" options="-parameters" />
+      <module name="com.course.kafka (2) (kafka-ms-reward)" options="-parameters" />
+      <module name="course_order" options="-parameters" />
+      <module name="kafka-REST-Proxy" options="-parameters" />
+      <module name="kafka-connect-sample" options="-parameters" />
+      <module name="kafka-ksqldb-sample" options="-parameters" />
+      <module name="kafka-ms_storage" options="-parameters" />
+      <module name="kafka_ms_order" options="-parameters" />
+      <module name="kafka_ms_streams" options="-parameters" />
+      <module name="kafka_sample" options="-parameters" />
+    </option>
+  </component>
+</project>

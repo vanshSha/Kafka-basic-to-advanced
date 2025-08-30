@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ExternalStorageConfigurationManager" enabled="true" />
+  <component name="MavenProjectsManager">
+    <option name="originalFiles">
+      <list>
+        <option value="$PROJECT_DIR$/KS/kafka_ms_order/kafka_ms_order/pom.xml" />
+        <option value="$PROJECT_DIR$/KS/kafka_ms_streams/kafka_ms_streams/pom.xml" />
+        <option value="$PROJECT_DIR$/kafka_stream/kafka_sample/pom.xml" />
+        <option value="$PROJECT_DIR$/kafka_stream/com.course_order/pom.xml" />
+        <option value="$PROJECT_DIR$/kafka_stream/kafka-ms_storage/pom.xml" />
+        <option value="$PROJECT_DIR$/kafka_stream/com.course_reward/pom.xml" />
+        <option value="$PROJECT_DIR$/kafka_stream/com.course_pattern/pom.xml" />
+        <option value="$PROJECT_DIR$/kafka-REST-Proxy/pom.xml" />
+        <option value="$PROJECT_DIR$/kafka-ksqldb-sample/pom.xml" />
+        <option value="$PROJECT_DIR$/Beginning-core-kafka/Kafka-core-consumer/pom.xml" />
+        <option value="$PROJECT_DIR$/Beginning-core-kafka/Kafka-core-producer/pom.xml" />
+        <option value="$PROJECT_DIR$/kafka-connect-sample/pom.xml" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_24" default="true" project-jdk-name="openjdk-24" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/out" />
+  </component>
+</project>
