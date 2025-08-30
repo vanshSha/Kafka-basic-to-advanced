@@ -12,6 +12,8 @@ public class OnlinePaymentProducer {
     private KafkaTemplate<String, OnlinePaymentMessage> kafkaTemplate;
 
     public void publish(OnlinePaymentMessage message) {
-        kafkaTemplate.send("t-commodity-online-payment", null, message.getOnlineOrderNumber(), message);
+        kafkaTemplate.send("t-commodity-online-payment",  message.getOnlineOrderNumber(), message);
     }
+    // i am removing null partition
+    // i don't want to decide partition manually . kafka will decide based on key
 }

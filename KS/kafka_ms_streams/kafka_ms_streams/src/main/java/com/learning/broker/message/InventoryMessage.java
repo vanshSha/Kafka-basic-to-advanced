@@ -20,4 +20,5 @@ public class InventoryMessage {
 
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZ")
     private OffsetDateTime transactionTime;
+    //What is the date & time in my timezone
 }

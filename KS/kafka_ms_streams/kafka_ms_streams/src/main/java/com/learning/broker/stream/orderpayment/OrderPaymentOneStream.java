@@ -16,7 +16,7 @@ import org.springframework.kafka.support.serializer.JsonSerde;
 import org.springframework.stereotype.Component;
 
 import java.time.Duration;
-// i am two two vote table
+
 //@Component
 public class OrderPaymentOneStream {
 
@@ -49,10 +49,24 @@ public class OrderPaymentOneStream {
         var paymentStream = builder.stream("t-commodity-online-payment", Consumed.with(
                 stringSerde, paymentSerde, new OnlinePaymentTimestampExtractor(), null));
 
-        orderStream.join(paymentStream, this::joinOrderPayment,
-                JoinWindows.ofTimeDifferenceWithNoGrace(Duration.ofHours(24l)),
-                StreamJoined.with(stringSerde, orderSerde, paymentSerde))
-        .to("t-commodity-join-order-payment-one", Produced.with(stringSerde, orderPaymentSerde));
+        orderStream.join(
+                        paymentStream,
+                        (order, payment) -> this.joinOrderPayment(order, payment),
+                        JoinWindows.ofTimeDifferenceWithNoGrace(Duration.ofHours(1l)),
+                        // JoinWindows Kafka Streams needs to know how long it should “wait”, maximum waiting time for the partner event
+                //   Keep the window open only for X time
+                //   Duration.ofHours(1l)
+                        StreamJoined.with(stringSerde, orderSerde, paymentSerde)
+                        // StreamJoined -> Tell me how to read and write in database
+                        // Which Serde to use for the key (orderId) ->   stringSerde - how ton seri/deseri the key (order_id)
+                        // Which Serde to use for the order value
+                        // Which Serde to use for the payment value
+                        // join() -> How to  2 stream join
+                        // StreamJoined = “Serde configuration for the
+                        // temporary RocksDB stores Kafka uses during a join.”
+                )
+                .to("t-commodity-join-order-payment-one", Produced.with(stringSerde, orderPaymentSerde));
+
 
     }
 

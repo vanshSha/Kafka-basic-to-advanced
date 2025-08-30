@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.ZoneOffset;
-
+// here it the issue i didn't understand where i did make mistake. The problem is mismatch serde. it isn't running
 // tumbling time window
 //@Component
 public class InventoryFiveStream {
@@ -25,13 +25,21 @@ public class InventoryFiveStream {
         var longSerde = Serdes.Long();
         var windowLength = Duration.ofHours(1l);
         var windowSerde = WindowedSerdes.timeWindowedSerdeFrom(String.class, windowLength.toMillis());
+        // here i am creating serde for timeWindowSerde
 
         builder.stream("t-commodity-inventory",
                         Consumed.with(stringSerde, inventorySerde, inventoryTimestampExtractor, null))
                 .mapValues(
                         (k, v) -> v.getType().equalsIgnoreCase("ADD") ? v.getQuantity() : -1 * v.getQuantity())
                 .groupByKey()
+                // windowedBy - time based grouping
+                // TimeWindows - define fixed size window
+                // ofSizeWithNoGrace - create a fixed size window
                 .windowedBy(TimeWindows.ofSizeWithNoGrace(windowLength))
+
+/*       .reduce -> combines values by key. kafka Stream Keeps just the final combined value
+ */
+                //(agg , newValue) -> Long.sum(agg , newValue)
                 .reduce(Long::sum, Materialized.with(stringSerde, longSerde))
                 .toStream()
                 .peek(

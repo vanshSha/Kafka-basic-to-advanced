@@ -41,8 +41,10 @@ public class WebDesignVoteOneStream {
                         v -> v.getColor()
                 )
                 .toTable(Materialized.with(stringSerde, Serdes.String()));
-
-
+//  Materialized.with(stringSerde, Serdes.String() this is use for how to serialization and deserialization in state store.
+//  When we use materialized Use when you create a state store (like .count(), .aggregate(), .reduce(), .toTable(), etc.).
+//  Kafka needs to know how to serialize/deserialize the state data.
+//  toTable(); -> use for convert kStream into KTable
         // Layout table with String value
         var layoutTable = builder.stream("t-commodity-web-vote-layout",
                         Consumed.with(stringSerde, layoutSerde,
@@ -61,6 +63,10 @@ public class WebDesignVoteOneStream {
                 "t-commodity-web-vote-one-result",
                 Produced.with(stringSerde, designSerde)
         );
+
+        // joinTable.groupBy -> KTable converts into KGroupedTable
+        // 🔹 Why do we need KGroupedTable?
+        // Because aggregation functions (count(), reduce(), aggregate()) only work on grouped tables.
 
         joinTable.groupBy(
                         (username, votedDesign) -> KeyValue.pair(votedDesign.getColor(), votedDesign.getColor())).count()

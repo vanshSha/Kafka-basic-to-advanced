@@ -18,13 +18,13 @@ import java.util.List;
 //@Component
 public class PremiumOfferTwoStream {
     //PremiumPurchaseMessage.,PremiumUserMessage
-    private PremiumOfferMessage joiner(PremiumPurchaseMessage purchase, PremiumUserMessage user){
+    private PremiumOfferMessage joiner(PremiumPurchaseMessage purchase, PremiumUserMessage user) {
         var result = new PremiumOfferMessage();
 
         result.setUsername(purchase.getUsername());
         result.setPurchaseNumber(purchase.getPurchaseNumber());
 
-        if(user != null){
+        if (user != null) {
             result.setLevel(user.getLevel());
         }
 
@@ -32,7 +32,7 @@ public class PremiumOfferTwoStream {
     }
 
     @Autowired
-    void kstreamPremiumOffer(StreamsBuilder builder){
+    void kstreamPremiumOffer(StreamsBuilder builder) {
         var stringSerde = Serdes.String();
         var purchaseSerde = new JsonSerde<>(PremiumPurchaseMessage.class);
         var userSerde = new JsonSerde<>(PremiumUserMessage.class);
@@ -47,12 +47,12 @@ public class PremiumOfferTwoStream {
                 Consumed.with(stringSerde, userSerde)).filter(
                 (k, v) -> filterLevel.contains(v.getLevel().toLowerCase()));
 
-        purchaseStream.leftJoin(userTable, this::joiner, Joined.with(stringSerde, purchaseSerde, userSerde))
+        purchaseStream.leftJoin(userTable, (purchase, user) -> this.joiner(purchase, user), Joined.with(stringSerde, purchaseSerde, userSerde))
                 .peek((k, v) -> System.out.println("Joined Result: " + k + " -> " + v))
                 .filter(
-                        (k,v) -> v.getLevel() != null
+                        (k, v) -> v.getLevel() != null
                 )
-                .to("t-commodity-premium-offer-two" , Produced.with(stringSerde, offerSerde));
+                .to("t-commodity-premium-offer-two", Produced.with(stringSerde, offerSerde));
 
     }
 

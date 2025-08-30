@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 // innerjoin stream
+// key of stream and table are same then write data otherwise doesn't do process
 //@Component
 public class PremiumOfferOneStream {
 
@@ -50,3 +51,13 @@ public class PremiumOfferOneStream {
     }
 
 }
+
+/*
+ KS % docker exec -it kafka kafka-console-consumer \
+--bootstrap-server localhost:9092 \
+--topic t-commodity-premium-offer-one \
+--from-beginning \
+--property print.key=true \    -> shows the Kafka key.
+--property print.value=true    -> shows the message content.
+
+ */

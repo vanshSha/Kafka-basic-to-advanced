@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/purchase/premium")
+@RequestMapping("/api/premium/purchase")
 public class PremiumPurchaseApi {
 
     @Autowired

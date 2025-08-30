@@ -7,12 +7,14 @@ import org.apache.kafka.streams.StreamsBuilder;
 import org.apache.kafka.streams.kstream.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.support.serializer.JsonSerde;
+import org.springframework.stereotype.Component;
 
 import java.time.Duration;
 import java.time.Instant;
 import java.time.ZoneOffset;
 
 // hopping time window
+// same problem like
 //@Component
 public class InventorySevenStream {
 

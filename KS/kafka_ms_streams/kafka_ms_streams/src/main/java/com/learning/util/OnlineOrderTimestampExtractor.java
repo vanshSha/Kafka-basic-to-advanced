@@ -4,6 +4,8 @@ import com.learning.broker.message.OnlineOrderMessage;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.streams.processor.TimestampExtractor;
 
+//decides the timestamp for each record
+// what time stamp i
 public class OnlineOrderTimestampExtractor implements TimestampExtractor {
 
 
@@ -14,3 +16,4 @@ public class OnlineOrderTimestampExtractor implements TimestampExtractor {
                 : record.timestamp();
     }
 }
+// by default producer send time .

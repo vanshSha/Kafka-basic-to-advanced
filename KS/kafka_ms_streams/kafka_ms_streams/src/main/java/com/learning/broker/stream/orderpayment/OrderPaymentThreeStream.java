@@ -17,7 +17,7 @@ import org.springframework.stereotype.Component;
 
 import java.time.Duration;
 
-//@Component
+@Component
 public class OrderPaymentThreeStream {
 
 
@@ -55,7 +55,7 @@ public class OrderPaymentThreeStream {
         var paymentStream = builder.stream("t-commodity-online-payment", Consumed.with(
                 stringSerde, paymentSerde, new OnlinePaymentTimestampExtractor(), null));
 
-        orderStream.outerJoin(paymentStream, this::joinOrderPayment,
+        orderStream.outerJoin(paymentStream, (order, payment) ->this.joinOrderPayment(order , payment),
                         JoinWindows.ofTimeDifferenceWithNoGrace(Duration.ofHours(24l)),
                         StreamJoined.with(stringSerde, orderSerde, paymentSerde))
                 .to("t-commodity-join-order-payment-three", Produced.with(stringSerde, orderPaymentSerde));

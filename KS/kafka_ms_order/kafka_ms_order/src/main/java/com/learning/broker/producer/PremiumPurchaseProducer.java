@@ -13,7 +13,8 @@ public class PremiumPurchaseProducer {
     private KafkaTemplate<String, PremiumPurchaseMessage> kafkaTemplate;
 
     public void publish(PremiumPurchaseMessage message) {
-        kafkaTemplate.send("t-commodity-premium-purchase", message.getPurchaseNumber(), message);
+        kafkaTemplate.send("t-commodity-premium-purchase",
+                message.getPurchaseNumber(), message);
     }
 
 }

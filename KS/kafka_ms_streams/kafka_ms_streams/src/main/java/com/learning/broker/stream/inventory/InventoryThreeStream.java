@@ -24,7 +24,10 @@ public class InventoryThreeStream {
                         (item, inventory) -> inventory.getType().equalsIgnoreCase("ADD") ?
                                 inventory.getQuantity() : -1 * inventory.getQuantity())
                 .groupByKey()
-                .reduce(Long::sum, Materialized.with(stringSerde, longSerde))
+                // reduce -> this method does combines value of same Key.
+                .reduce((aggValue, newValue) -> Long.sum(aggValue, newValue),
+                        Materialized.with(stringSerde, longSerde))
+
                 .toStream().to("t-commodity-inventory-total-three",
                         Produced.with(stringSerde, longSerde));
     }

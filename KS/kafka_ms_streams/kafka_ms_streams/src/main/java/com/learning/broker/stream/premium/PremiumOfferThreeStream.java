@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 // global table
-//@Component
+@Component
 public class PremiumOfferThreeStream {
 
     private PremiumOfferMessage joiner(PremiumPurchaseMessage purchase, PremiumUserMessage user) {
@@ -52,7 +52,7 @@ public class PremiumOfferThreeStream {
                 Consumed.with(stringSerde, userSerde));
 
         var offerStream = purchaseStream.join(userTable,
-                (key, value) -> key, this::joiner);
+                (key, value) -> key, (purchase, user) -> this.joiner(purchase, user ) );
 
         offerStream.to("t-commodity-premium-offer-three", Produced.with(stringSerde, offerSerde));
 

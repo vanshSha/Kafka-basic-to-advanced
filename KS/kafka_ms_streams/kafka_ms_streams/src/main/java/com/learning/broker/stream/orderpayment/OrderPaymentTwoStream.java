@@ -28,7 +28,7 @@ public class OrderPaymentTwoStream {
         result.setOrderDateTime(order.getOrderDateTime());
         result.setTotalAmount(order.getTotalAmount());
         result.setUsername(order.getUsername());
-        if(payment != null){
+        if (payment != null) {
 
             result.setPaymentDateTime(payment.getPaymentDateTime());
             result.setPaymentMethod(payment.getPaymentMethod());
@@ -52,10 +52,13 @@ public class OrderPaymentTwoStream {
         var paymentStream = builder.stream("t-commodity-online-payment", Consumed.with(
                 stringSerde, paymentSerde, new OnlinePaymentTimestampExtractor(), null));
 
-        orderStream.leftJoin(paymentStream, this::joinOrderPayment,
-                JoinWindows.ofTimeDifferenceWithNoGrace(Duration.ofHours(24l)),
-                StreamJoined.with(stringSerde, orderSerde, paymentSerde))
-        .to("t-commodity-join-order-payment-two", Produced.with(stringSerde, orderPaymentSerde));
+        orderStream.leftJoin(paymentStream, (order, payment) -> this.joinOrderPayment(order, payment),
+                        JoinWindows.ofTimeDifferenceWithNoGrace(Duration.ofHours(24l)),
+                        // JoinWindows -> this tell to kafka how long i should wait for my partner
+                        // ofTimeDifferenceWithNoGrace -> this provides no grace period
+                        StreamJoined.with(stringSerde, orderSerde, paymentSerde))
+                //  StreamJoined.with -> tells Kafka how to serialize/deserialize keys & values
+                .to("t-commodity-join-order-payment-two", Produced.with(stringSerde, orderPaymentSerde));
 
     }
 

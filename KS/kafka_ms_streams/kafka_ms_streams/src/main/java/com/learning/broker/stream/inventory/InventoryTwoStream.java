@@ -20,7 +20,7 @@ public class InventoryTwoStream {
         var longSerde = Serdes.Long();
 
         builder.stream("t-commodity-inventory", Consumed.with(stringSerde, inventorySerde))
-                .mapValues(
+                .mapValues( // is ADD machead then return positive number otherWise return negative
                         (item, inventory) -> inventory.getType().equalsIgnoreCase("ADD") ?
                                 inventory.getQuantity() : -1 * inventory.getQuantity())
                 .groupByKey()

@@ -14,6 +14,7 @@ import java.time.Instant;
 import java.time.ZoneOffset;
 
 // hopping time window
+// same problem like tumbling window
 //@Component
 public class InventorySixStream {
 

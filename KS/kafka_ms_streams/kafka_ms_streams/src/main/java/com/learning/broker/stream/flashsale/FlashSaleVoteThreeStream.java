@@ -24,7 +24,7 @@ public class FlashSaleVoteThreeStream {
         var voteStart = OffsetDateTime.parse("2020-01-01T00:00:00Z");
         var voteEnd = OffsetDateTime.parse("2030-01-01T00:00:00Z");
 
-
+// .processValues this only work on values
         builder.stream("t-commodity-flashsale-vote", Consumed.with(stringSerde, flashSaleVoteSerde))
                 .processValues(
                         () -> new FlashSaleVoteThreeFixedKeyProcessor(voteStart, voteEnd))
