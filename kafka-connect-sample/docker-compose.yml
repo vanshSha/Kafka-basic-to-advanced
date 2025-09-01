@@ -24,11 +24,13 @@ services:
       - kafka-net
     environment:
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092,PLAINTEXT_INTERNAL://0.0.0.0:9093   kafka:9093
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092,PLAINTEXT_INTERNAL://kafka:9093
-      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_INTERNAL:PLAINTEXT
+      KAFKA_LISTENERS: PLAINTEXT_HOST://0.0.0.0:9092,PLAINTEXT_INTERNAL://0.0.0.0:9093
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT_HOST://localhost:9092,PLAINTEXT_INTERNAL://kafka:9093
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT_HOST:PLAINTEXT,PLAINTEXT_INTERNAL:PLAINTEXT
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT_INTERNAL
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+
+
 
   #  PLAINTEXT - host
   #  PLAINTEXT_INTERNAL - internal
@@ -37,7 +39,7 @@ services:
   kafka-connect:
     image: confluentinc/cp-kafka-connect:7.5.0
     platform: linux/arm64
-    hostname: kafka
+    hostname: kafka-connect
     container_name: kafka-connect
     restart: unless-stopped
     networks:
@@ -45,7 +47,7 @@ services:
     ports:
       - "8083:8083"
     environment:
-      CONNECT_BOOTSTRAP_SERVERS: kafka:9093
+      CONNECT_BOOTSTRAP_SERVERS: PLAINTEXT_INTERNAL://kafka:9093
       CONNECT_REST_PORT: 8083
       CONNECT_REST_HOST_NAME: kafka-connect
       CONNECT_GROUP_ID: kafka-connect-group-id
@@ -103,7 +105,9 @@ services:
     environment:
       SCHEMA_REGISTRY_HOST_NAME: kafka-schema-registry
       SCHEMA_REGISTRY_LOG4J_ROOT_LOGLEVEL: WARN
-      SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS: PLAINTEXT://kafka:29092
+      SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS: PLAINTEXT_INTERNAL://kafka:9093
+      KAFKASTORE_SECURITY_PROTOCOL: PLAINTEXT
+
     depends_on:
       - kafka
 

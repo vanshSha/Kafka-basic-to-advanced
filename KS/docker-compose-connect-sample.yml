@@ -41,20 +41,6 @@ volumes:
   pgdata:
 
 
-  #  Volume pgdata will store clean data.
-
-  # Uncomment to enable local Elasticsearch
-  # elasticsearch:
-  #   image: elasticsearch:8.15.0
-  #   container_name: elasticsearch
-  #   restart: unless-stopped
-  #   networks:
-  #     - kafka-connect-sample-net
-  #   ports:
-  #     - "9200:9200"
-  #     - "9300:9300"
-  #   environment:
-  #     discovery.type: single-node
 networks:
   kafka-net:
     external: true
