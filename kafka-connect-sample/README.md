@@ -30,9 +30,14 @@
         
          ./mvnw spring-boot:run. -> Spring Boot
 
-         docker compose file  -> Docker 
+          docker compose file  -> Docker 
 
          
 
+     # How to use Kafka-connect
 
+    1-   GET    
+         http://localhost:8083/connector-plugins -> Fist check how many connectors I have.
+
+    2-      
         
